@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    color: white;
+    font-family: 'Merriweather';
+}
+
+html {
+    overflow-x: hidden;
+}
+
+body {
+    min-height: 100vh;
+    background-color: #191B32;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    overflow-x: hidden;
+    font-family: 'Metropolis', sans-serif;
+}
+
+a, img {
+    -webkit-user-drag: none;
+    -moz-window-dragging: none;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
