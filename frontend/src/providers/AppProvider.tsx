@@ -1,5 +1,5 @@
 import { useLayoutEffect, createContext, useContext } from "react";
-import { useInitData } from "@telegram-apps/sdk-react";
+import { useMiniApp, useInitData } from "@telegram-apps/sdk-react";
 
 import API from "@/libs/API";
 
@@ -9,7 +9,7 @@ interface AppContextData {
 const AppContext = createContext<AppContextData | null>(null);
 
 const AppProvider = ({ children }: { children: JSX.Element }) => {
-
+    const app = useMiniApp();
     const initData = useInitData();
 
     useLayoutEffect(() => {
@@ -24,7 +24,10 @@ const AppProvider = ({ children }: { children: JSX.Element }) => {
             localStorage.setItem('token', `Bearer ${res.data.token}`);
             console.log('User logined:', initData?.user?.username);
         })
-        .catch(console.error);
+        .catch(error => {
+            console.error(error.message);
+            app.close();
+        });
     }, []);
 
     return (

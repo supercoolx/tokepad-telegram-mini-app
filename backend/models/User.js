@@ -10,12 +10,16 @@ const UserSchema = new mongoose.Schema({
   lastname: { type: String, default: '' },
   inviter: { type: String, default: '' },
   isPremium: { type: Boolean, default: false },
+
   walletConnected: { type: Boolean, default: false },
   visitWebSite: { type: Boolean, default: false },
+  visitOpensea: { type: Boolean, default: false },
   telegramChannelJoined: { type: Boolean, default: false },
   telegramGroupJoined: { type: Boolean, default: false },
   xFollowed: { type: Boolean, default: false },
   xTweet: { type: Boolean, default: false },
+  instagramFollowed: { type: Boolean, default: false },
+  youtubeSubscribed: { type: Boolean, default: false },
   
   friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   role: { type: String, enum: ['admin', 'user'], default: 'user' },
@@ -26,8 +30,8 @@ const UserSchema = new mongoose.Schema({
   weeklyScore: { type: Number, default: 0 },
   monthlyScore: { type: Number, default: 0 },
   
-  energy: { type: Number, default: 1000 },
-  maxEnergy: { type: Number, default: 1000 },
+  energy: { type: Number, default: 500 },
+  maxEnergy: { type: Number, default: 500 },
   loseEnergyPerTap: { type: Number, default: 10 },
   addEnergyPerSecond: { type: Number, default: 1 },
   lastEnergyUpdate: { type: Date, default: Date.now },

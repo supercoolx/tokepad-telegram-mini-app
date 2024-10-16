@@ -1,7 +1,7 @@
 const axios = require('axios');
 const TonWeb = require('tonweb');
 
-const History = require('../models/PurchaseHistory');
+const History = require('../models/StarPaymentHistory');
 const { VERIFY_TRANSACTION_ON_MAINNET, OWNER_ADDRESS } = require('./constants');
 
 const bocToHash = async (boc) => {

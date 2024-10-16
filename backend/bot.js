@@ -7,7 +7,7 @@ const download = require('download');
 const connectDB = require('./db/connect');
 const User = require('./models/User');
 const Item = require('./models/Item');
-const PurchaseHistory = require('./models/PurchaseHistory');
+const StarPaymentHistory = require('./models/StarPaymentHistory');
 const { register } = require('./controllers/authController');
 const logger = require('./helper/logger');
 
@@ -51,8 +51,8 @@ const botStart = async () => {
             return;
         }
         
-        play_url = process.env.APP_URL;
-        const link = `${process.env.BOT_LINK}?start=${userid}`;
+        play_url = process.env.WEB_URL;
+        const link = `${process.env.BOT_WEBAPP}?start=${userid}`;
         const shareText = 'Join our telegram mini app.';
         const invite_fullUrl = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(shareText)}`;
 
@@ -65,9 +65,9 @@ const botStart = async () => {
             .url('🙈 Invite 🙉', invite_fullUrl)
 
         await ctx.replyWithPhoto(
-            process.env.BOT_LOGO,
+            process.env.BOT_THUMBNAIL,
             {
-                caption: 'Welcome to tokepad!',
+                caption: 'Welcome to Boredem Legend!',
                 reply_markup: keyboard,
             }
         );
@@ -89,7 +89,7 @@ const botStart = async () => {
         const payment = ctx.message.successful_payment;
         const payload = JSON.parse(payment.invoice_payload);
 
-        await PurchaseHistory.create({
+        await StarPaymentHistory.create({
             user: payload.userid,
             boostItem: payload.boostid,
             telegramPaymentChargeId: payment.telegram_payment_charge_id,
