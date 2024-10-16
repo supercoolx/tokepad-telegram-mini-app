@@ -226,7 +226,7 @@ const Task = () => {
                 </div>
                 <div className="flex items-center gap-2 px-3 py-2 mx-3 border rounded-lg bg-slate-600 border-white/50 justi">
                     <div className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-200">
-                        <Image src="/imgs/icons/x.png" width={20} height={20} />
+                        <Image src="/imgs/icons/instagram.png" width={20} height={20} />
                     </div>
                     <div className="flex items-center justify-between flex-1">
                         <div className="">
@@ -241,7 +241,7 @@ const Task = () => {
                 </div>
                 <div className="flex items-center gap-2 px-3 py-2 mx-3 border rounded-lg bg-slate-600 border-white/50 justi">
                     <div className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-200">
-                        <Image src="/imgs/icons/x.png" width={20} height={20} />
+                        <Image src="/imgs/icons/youtube.png" width={20} height={20} />
                     </div>
                     <div className="flex items-center justify-between flex-1">
                         <div className="">
@@ -271,7 +271,7 @@ const Task = () => {
                 </div>
                 <div className="flex items-center gap-2 px-3 py-2 mx-3 border rounded-lg bg-slate-600 border-white/50 justi">
                     <div className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-200">
-                        <Image src="/imgs/icons/website.png" width={20} height={20} />
+                        <Image src="/imgs/icons/opensea.png" width={20} height={20} />
                     </div>
                     <div className="flex items-center justify-between flex-1">
                         <div className="">

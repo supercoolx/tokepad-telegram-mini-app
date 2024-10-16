@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import API from "@/libs/API";
 import { useInitData } from "@telegram-apps/sdk-react";
-import Countdown from 'react-countdown';
 
 import Image from "@/components/ui/Image";
 import TapEffect, { TapEffectProps } from "@/components/ui/TapEffect";
@@ -13,8 +12,8 @@ const Home = () => {
     const [earnPerTap, setEarnPerTap] = useState(1);
     const [loseEnergyPerTap, setLoseEnergyPerTap] = useState(1);
     const [addEnergyPerSecond, setAddEnergyPerSecond] = useState(1);
+    const [earnPerSecond, setEarnPerSecond] = useState(0);
     const [maxEnergy, setMaxEnergy] = useState(500);
-    const [endTime, setEndTime] = useState('');
 
     const [effects, setEffects] = useState<TapEffectProps[]>([]);
     
@@ -28,23 +27,23 @@ const Home = () => {
             setEarnPerTap(res.data.earnPerTap);
         }).catch(console.error);
 
-        API.get('/play/boost/getmy/' + user.id).then(res => {
-            res.data.success && setEndTime(res.data.boost.endTime);
+        API.get('/users/boost/getmy/' + user.id).then(res => {
+            if (res.data.success) {
+                const boost = res.data.boosts.reduce((acc: number, boost: any) => acc + boost.item.bonus, 0);
+                setEarnPerSecond(boost);
+            }
         }).catch(console.error);
     }, [user]);
 
     useEffect(() => {
-        const id = setInterval(async () => {
-            if (maxEnergy <= energy) {
-                clearInterval(id);
-                return;       
-            }
-            setEnergy(prev => prev + addEnergyPerSecond);
-            API.put('/users/growUp',{userid: user.id});
-        }, 1000);
-        
+        const id = setInterval(setEnergy, 1000, prev => Math.min(prev + addEnergyPerSecond, maxEnergy));
         return () => clearInterval(id);
-    }, [energy, maxEnergy]);
+    }, [maxEnergy, addEnergyPerSecond]);
+
+    useEffect(() => {
+        const id = setInterval(setPoint, 1000, prev => prev + earnPerSecond);
+        return () => clearInterval(id);
+    }, [earnPerSecond]);
 
     const handleTap = (e: MouseEvent) => {
         e.preventDefault();
@@ -73,19 +72,10 @@ const Home = () => {
 
     return (
         <div className="flex flex-col justify-between w-screen h-screen pb-24">
-            {
-                endTime ? <Countdown
-                    date={endTime}
-                    intervalDelay={1000}
-                    precision={3}
-                    onComplete={() => setEndTime('')}
-                    renderer={(props) => <div className="absolute w-[110px] whitespace-nowrap font-poppins font-bold text-[10px] top-[3px] right-[10px] text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-yellow-500 to-indigo-500 bg-[length:1000px_100px] animate-bg">Boost&nbsp;&nbsp;{props.days ? props.days.toString() + 'd' : ''} {props.hours.toString()} : {props.minutes.toString().padStart(2, '0')} : {props.seconds.toString().padStart(2, '0')}</div>}
-                /> : null
-            }
             <div className="mt-10">
                 <div className="flex items-center justify-center gap-2">
                     <Image src="/imgs/icons/coin.png" width={30} height={30} />
-                    <span className="text-3xl font-bold">{ point }</span>
+                    <span className="text-3xl font-bold">{ point.toLocaleString() }</span>
                 </div>
                 <div className="flex items-center justify-center gap-1 mt-3 cursor-pointer">
                     <Image src="/imgs/icons/cup.png" width={16} height={16} />
