@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useInitData } from "@telegram-apps/sdk-react";
-import { CountUp } from "@eeacms/countup";
+// import { CountUp } from "@eeacms/countup";
 
 import API from '@/libs/API';
 import Avatar from "@/components/ui/Avatar";
@@ -15,13 +15,13 @@ const Leaderboard = () => {
     const [self, setSelf] = useState<any>();
 
     const [userCount, setUserCount] = useState(0);
-    const [isCounting, setCounting] = useState(false);
+    // const [isCounting, setCounting] = useState(false);
 
     useEffect(() => {
         API.get('/users/count/all')
             .then(res => {
                 setUserCount(res.data.count);
-                setCounting(true);
+                // setCounting(true);
             })
             .catch(console.error);
     }, []);
@@ -55,11 +55,12 @@ const Leaderboard = () => {
                 </div>
             </div>}
             <div className="flex items-end justify-center gap-2 mt-5 text-center">
-                <CountUp
+                {/* <CountUp
                     end={userCount}
                     formatter={(val: number) => <span className="text-3xl font-bold leading-none text-yellow-500">{Math.floor(val).toLocaleString()}</span>}
                     isCounting={isCounting} duration={0.5}
-                />
+                /> */}
+                 <span className="text-3xl font-bold leading-none text-yellow-500">{ userCount.toLocaleString() }</span>
                 <span className="text-sm">users</span>
             </div>
             <div className="flex flex-col px-5 mt-5 max-h-[calc(100vh-150px)] overflow-y-auto">

@@ -89,7 +89,7 @@ const Boost = () => {
 
     return (
         <div className="h-[calc(100vh-90px)] overflow-y-auto">
-            <button onClick={handleConnectWallet} className="absolute top-3 left-3 z-10 px-2 h-[30px] flex items-center justify-center gap-1 rounded-lg bg-slate-800 text-sm shadow-md hover:scale-110 transition-all duration-200">{ wallet ? wallet.account.address?.slice(0, 5) + '...' + wallet.account.address?.slice(-5) : 'Connect Wallet' }</button>
+            <button onClick={handleConnectWallet} className="absolute top-3 right-3 z-10 px-2 h-[30px] flex items-center justify-center gap-1 rounded-lg bg-slate-800 text-sm shadow-md hover:scale-110 transition-all duration-200">{ wallet ? wallet.account.address?.slice(0, 5) + '...' + wallet.account.address?.slice(-5) : 'Connect Wallet' }</button>
             <div className="relative flex items-end justify-center">
                 <Image src="/imgs/pages/boost.jpg" />
                 <div className="absolute bottom-0 text-[42px] font-bold text-yellow-500 translate-y-1/2" style={{ WebkitTextStroke: '1px white' }}>Boost legends</div>
