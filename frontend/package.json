@@ -11,22 +11,19 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@eeacms/countup": "^2.0.6",
     "@telegram-apps/react-router-integration": "^1.0.0",
     "@telegram-apps/sdk": "^2.4.0",
     "@telegram-apps/sdk-react": "^1.0.0",
     "@telegram-apps/telegram-ui": "^2.1.5",
     "@tonconnect/ui-react": "^2.0.5",
     "axios": "^1.7.7",
-    "canvas-confetti": "^1.9.3",
-    "eruda": "^3.0.1",
-    "gsap": "^3.12.5",
     "howler": "^2.2.4",
     "react": "^18.2.0",
     "react-countdown": "^2.3.6",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.0",
-    "react-toastify": "^10.0.5",
-    "splitting": "^1.1.0"
+    "react-toastify": "^10.0.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.2.0",
