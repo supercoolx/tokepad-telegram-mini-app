@@ -76,7 +76,7 @@ export const App: FC = () => {
           <Footer />
         </Router>
       </AppProvider>
-      <ToastContainer position="top-center" autoClose={3000} theme="dark" />
+      <ToastContainer position="top-center" draggable autoClose={3000} theme="dark" />
     </AppRoot>
   );
 };

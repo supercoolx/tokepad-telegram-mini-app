@@ -5,6 +5,7 @@ const { StatusCodes } = require('http-status-codes');
 
 const User = require('../models/User');
 const Item = require('../models/Item');
+const History = require('../models/TonPaymentHistory');
 
 const logger = require('../helper/logger');
 const { LEADERBOARD_SHOW_USER_COUNT } = require('../helper/constants');
@@ -116,25 +117,25 @@ const purchaseBoost = async (req, res) => {
     return res.status(StatusCodes.OK).json({ success: false, status: 'noboostitem', msg: 'Not found boost item!' });
   }
 
-  // const result = await verifyTransaction(tx, boostItem.price);
-  // console.log('Verify result:', result);
-  // if (!result.success) return res.status(StatusCodes.OK).json(result);
+  const result = await verifyTransaction(tx, boostItem.price);
+  console.log('Verify result:', result);
+  if (!result.success) return res.status(StatusCodes.OK).json(result);
   
   user.boosts.push({ item: boostItem._id });
   await user.save();
 
   res.status(StatusCodes.OK).json({ success: true, boost: boostItem, msg: 'You are boosted!' });
 
-  // const history = new History({
-  //   user: user._id,
-  //   boostItem: boostItem._id,
-  //   quantity,
-  //   hash: result.hash,
-  //   from: result.from,
-  //   to: result.to,
-  //   amount: result.amount
-  // });
-  // history.save();
+  const history = new History({
+    user: user._id,
+    boostItem: boostItem._id,
+    quantity,
+    hash: result.hash,
+    from: result.from,
+    to: result.to,
+    amount: result.amount
+  });
+  history.save();
 }
 
 const getAllBoost = async (req, res) => {
