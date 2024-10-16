@@ -9,7 +9,7 @@ const Ref = () => {
     const user = useInitData()!.user!;
     const utils = useUtils();
     const [friends, setFriends] = useState<any[]>([]);
-    const [point, setPoint] = useState();
+    const [point, setPoint] = useState(0);
 
     const handleClickInviteLink = () => {
         const link = LINK.TELEGRAM_MINIAPP + '?start=' + user.id;
@@ -40,7 +40,7 @@ const Ref = () => {
                 <Image src="/imgs/icons/coin.png" width={80} height={80} />
                 <div className="">
                     <div className="text-sm">Your point</div>
-                    <div className="text-3xl font-bold text-yellow-400">{point}</div>
+                    <div className="text-3xl font-bold text-yellow-400">{ point.toLocaleString() }</div>
                 </div>
             </div>
             <div className="flex justify-between gap-3 px-10 mt-5">
@@ -53,7 +53,7 @@ const Ref = () => {
                 <div className="text-xl">Your friends</div>
                 <div className="flex flex-col flex-1 px-3 py-5 mt-3 font-bold border divide-y rounded-lg divide-white/50 border-white/20 bg-white/20 max-h-[300px] overflow-y-auto">
                     { friends.map((friend, index) => <div key={index} className="flex items-center gap-2 py-2">
-                        <Avatar userid={user.id} username={user.username} width={30} height={30} />
+                        <Avatar userid={friend.userid} username={friend.username} width={40} height={40} />
                         <div className="flex items-center justify-between flex-1">
                             <div className="">
                                 <div className="text-sm font-bold">{ friend.firstname }</div>

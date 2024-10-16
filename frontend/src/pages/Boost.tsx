@@ -63,7 +63,7 @@ const Boost = () => {
         <div className="h-[calc(100vh-90px)] overflow-y-auto">
             <div className="relative flex items-end justify-center">
                 <Image src="/imgs/pages/boost.jpg" />
-                <div className="absolute bottom-0 text-[42px] font-bold text-yellow-500 translate-y-1/2" style={{ WebkitTextStroke: '1px white' }}>Boost your ape</div>
+                <div className="absolute bottom-0 text-[42px] font-bold text-yellow-500 translate-y-1/2" style={{ WebkitTextStroke: '1px white' }}>Boost legends</div>
             </div>
             <div className="px-8 mt-10 text-xs text-center">Boost your tap and enjoy more rewards instantly!</div>
             <div className="flex flex-col gap-3 mt-10">
@@ -76,7 +76,7 @@ const Boost = () => {
                             <div className="">{item.title}</div>
                             <div className="flex items-center gap-2 mt-1">
                                 <Image src="/imgs/icons/coin.png" width={12} height={12} />
-                                <span className="text-[10px]">x2 for {item.period} days</span>
+                                <span className="text-[10px]">x{item.bonus} for {item.period} days</span>
                             </div>
                         </div>
                         {

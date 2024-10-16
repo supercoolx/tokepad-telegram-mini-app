@@ -23,8 +23,8 @@ const Footer = () => {
                 <img src="/imgs/footer/boost.png" alt="" className="w-6 h-6" />
                 <span className="text-xs">Boost</span>
             </Link>
-            <Link to="/wallet" className={`flex flex-col items-center justify-center w-16 h-16 gap-1 border rounded-md ${ pathname === '/wallet' ? 'bg-blue-400/20' : 'bg-white/5 hover:bg-blue-400/20'} border-white/10 transition-all duration-300`}>
-                <img src="/imgs/footer/wallet.png" alt="" className="w-6 h-6" />
+            <Link to="/leaderboard" className={`flex flex-col items-center justify-center w-16 h-16 gap-1 border rounded-md ${ pathname === '/leaderboard' ? 'bg-blue-400/20' : 'bg-white/5 hover:bg-blue-400/20'} border-white/10 transition-all duration-300`}>
+                <img src="/imgs/footer/leaderboard.png" alt="" className="w-6 h-6" />
                 <span className="text-xs">Wallet</span>
             </Link>
         </div>
