@@ -4,13 +4,10 @@ const path = require('path');
 const { StatusCodes } = require('http-status-codes');
 
 const User = require('../models/User');
-const Follow = require('../models/Follow');
 const Item = require('../models/Item');
-const History = require('../models/StarPaymentHistory');
 
 const logger = require('../helper/logger');
-const { BONUS, TELEGRAM, LEADERBOARD_SHOW_USER_COUNT } = require('../helper/constants');
-const { isUserTGJoined } = require('../helper/botHelper');
+const { LEADERBOARD_SHOW_USER_COUNT } = require('../helper/constants');
 
 const { verifyTransaction } = require('../helper/transaction');
 
@@ -18,6 +15,7 @@ const getUser = async (req, res) => {
   const { userid } = req.params;
   const user = await User.findOne({ userid });
   await user.updateEnergy();
+  await user.updatePoint();
   res.status(StatusCodes.OK).json(user);
 }
 
@@ -85,7 +83,6 @@ const updateUserByTap = async (req, res) => {
   if (user.energy < 0) {
     user.energy = 0;
   }
-  user.lastEnergyUpdate = Date.now();
   await user.save();
 
   return res.status(StatusCodes.OK).json({ success: true, point: user.point, energy: user.energy });
@@ -110,59 +107,34 @@ const growUp = async (req, res) => {
 
 const purchaseBoost = async (req, res) => {
   const { userid, boostid, tx } = req.body;
-  const quantity = 1;
   const user = await User.findOne({ userid });
   if (!user) {
     return res.status(StatusCodes.OK).json({ success: false, status: 'nouser', msg: 'Not found user!' });
-  }
-  const currentTime = new Date();
-  for (const boost of user.boosts) {
-    if (currentTime < boost.endTime) {
-      return res.status(StatusCodes.OK).json({ success: false, status: 'exist', msg: 'You already buy boost item!' });
-    }
   }
   const boostItem = await Item.findById(boostid);
   if (!boostItem) {
     return res.status(StatusCodes.OK).json({ success: false, status: 'noboostitem', msg: 'Not found boost item!' });
   }
 
-  const result = await verifyTransaction(tx, boostItem.price);
-  console.log('Verify result:', result);
-  if (!result.success) return res.status(StatusCodes.OK).json(result);
+  // const result = await verifyTransaction(tx, boostItem.price);
+  // console.log('Verify result:', result);
+  // if (!result.success) return res.status(StatusCodes.OK).json(result);
+  
+  user.boosts.push({ item: boostItem._id });
+  await user.save();
 
-  var userBoost = null;
-  switch (boostItem.type) {
-    case 'one-time':
-      userBoost = { item: boostItem._id };
-      break;
-    case 'many-time':
-      userBoost = { item: boostItem._id, remainingUses: boostItem.maxUses };
-      break;
-    case 'forever':
-      userBoost = { item: boostItem._id };
-      break;
-    case 'period':
-      const currentTime = new Date();
-      const endTime = new Date(currentTime.getTime() + boostItem.period * 24 * 60 * 60 * 1000);
-      userBoost = { item: boostItem._id, endTime };
-      break;
-  }
-  if (userBoost) {
-    user.boosts.push(userBoost);
-    await user.save();
-  }
-  res.status(StatusCodes.OK).json({ success: true, boost: userBoost, msg: 'Purchase boost successfully!' });
+  res.status(StatusCodes.OK).json({ success: true, boost: boostItem, msg: 'You are boosted!' });
 
-  const history = new History({
-    user: user._id,
-    boostItem: boostItem._id,
-    quantity,
-    hash: result.hash,
-    from: result.from,
-    to: result.to,
-    amount: result.amount
-  });
-  history.save();
+  // const history = new History({
+  //   user: user._id,
+  //   boostItem: boostItem._id,
+  //   quantity,
+  //   hash: result.hash,
+  //   from: result.from,
+  //   to: result.to,
+  //   amount: result.amount
+  // });
+  // history.save();
 }
 
 const getAllBoost = async (req, res) => {
@@ -192,44 +164,8 @@ const getMyBoost = async (req, res) => {
     return res.status(StatusCodes.OK).json({ success: false, status: 'nouser', msg: 'Not found user!' });
   }
 
-  const result = await User.aggregate([
-    { $match: { 'boosts.item': { $ne: null } } }, // Filter users with boosts
-    { $unwind: '$boosts' }, // Deconstruct boosts array
-    {
-      $lookup: {
-        from: 'boostitems', // The collection name for Item
-        localField: 'boosts.item',
-        foreignField: '_id',
-        as: 'boostDetails'
-      }
-    },
-    { $unwind: '$boostDetails' }, // Deconstruct boostDetails array
-    {
-      $group: {
-        _id: null,
-        totalUsers: { $addToSet: '$userid' }, // Unique user IDs
-        totalPrice: { $sum: '$boostDetails.price' } // Sum of prices
-      }
-    },
-    {
-      $project: {
-        totalUsersCount: { $size: '$totalUsers' },
-        totalBoostsPrice: '$totalPrice'
-      }
-    }
-  ]);
-  const total = {
-    usersCount: result.length > 0 ? result[0].totalUsersCount.toString() : 0,
-    price: result.length > 0 ? result[0].totalBoostsPrice.toString() : 0
-  }
-
-  const currentTime = new Date();
-  for (const boost of user.boosts) {
-    if (currentTime < boost.endTime) {
-      return res.status(StatusCodes.OK).json({ success: true, boost, total });
-    }
-  }
-  return res.status(StatusCodes.OK).json({ success: false, status: 'noboost', total, msg: 'You did not buy boost!' });
+  const boosts = user.boosts;
+  return res.status(StatusCodes.OK).json({ success: true, boosts });
 }
 module.exports = {
   getUser,

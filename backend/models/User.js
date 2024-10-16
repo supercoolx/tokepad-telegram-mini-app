@@ -20,16 +20,16 @@ const UserSchema = new mongoose.Schema({
   xTweet: { type: Boolean, default: false },
   instagramFollowed: { type: Boolean, default: false },
   youtubeSubscribed: { type: Boolean, default: false },
-  
+
   friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   role: { type: String, enum: ['admin', 'user'], default: 'user' },
-  
+
   token: { type: Number, default: 0 },
   point: { type: Number, default: 0 },
   totalScore: { type: Number, default: 0 },
   weeklyScore: { type: Number, default: 0 },
   monthlyScore: { type: Number, default: 0 },
-  
+
   energy: { type: Number, default: 500 },
   maxEnergy: { type: Number, default: 500 },
   loseEnergyPerTap: { type: Number, default: 10 },
@@ -42,15 +42,16 @@ const UserSchema = new mongoose.Schema({
 
   boosts: [{
     item: { type: mongoose.Schema.Types.ObjectId, ref: 'Item' },
-    endTime: { type: Date, default: Date.now },
+    level: { type: Number, default: 1 },
+    startedAt: { type: Date, default: Date.now }
   }],
 });
 
 // Method to update energy based on elapsed time since last update
-UserSchema.methods.updateEnergy = async function() {
+UserSchema.methods.updateEnergy = async function () {
   const now = Date.now();
   const secondsElapsed = Math.floor((now - this.lastEnergyUpdate) / 1000);
-  
+
   if (secondsElapsed > 0) {
     var addValue = await this.calcEnergyInc();
     const energyGain = addValue * secondsElapsed;
@@ -61,20 +62,40 @@ UserSchema.methods.updateEnergy = async function() {
   return Promise.resolve(); // No time has elapsed
 };
 
-// Calc add energy per second
-UserSchema.methods.calcEnergyInc = async function() {
-  var value = this.addEnergyPerSecond;
-  const currentTime = new Date();
-  for (const boost of this.boosts) {
-    if (currentTime < boost.endTime) {
-      return value * 2;
+UserSchema.methods.updatePoint = async function () {
+  const now = Date.now();
+  let sumPoint = 0;
+
+  const user = await this.populate('boosts.item');
+  const boosts = [];
+  user.boosts.forEach((boost) => {
+    const secondsElapsed = Math.floor((now - boost.startedAt) / 1000);
+    if (secondsElapsed > 0) {
+      sumPoint += boost.item.bonus * Math.min(secondsElapsed, boost.item.period);
     }
-  }
+    boost.startedAt = now;
+    boosts.push(boost);
+  });
+  user.boosts = boosts;
+  user.point += sumPoint;
+
+  return user.save();
+};
+
+// Calc add energy per second
+UserSchema.methods.calcEnergyInc = async function () {
+  var value = this.addEnergyPerSecond;
+  // const currentTime = new Date();
+  // for (const boost of this.boosts) {
+  //   if (currentTime < boost.endTime) {
+  //     return value * 2;
+  //   }
+  // }
   return value;
 };
 
 // Method to add point with totalScore, weeklyScore, monthlyScore
-UserSchema.methods.addPoint = async function(value) {
+UserSchema.methods.addPoint = async function (value) {
   this.point += value;
   this.totalScore += value;
   this.weeklyScore += value;
