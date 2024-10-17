@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useInitData } from '@telegram-apps/sdk-react';
-import { useTonWallet, useTonConnectUI, CHAIN } from '@tonconnect/ui-react';
+import { useTonWallet, useTonAddress, useTonConnectUI, CHAIN } from '@tonconnect/ui-react';
 import { toast } from 'react-toastify';
 
 
@@ -11,6 +11,7 @@ import Image from "@/components/ui/Image"
 const Boost = () => {
     const user = useInitData()!.user!;
     const wallet = useTonWallet();
+    const address = useTonAddress()
     const [tonConnectUI, ] = useTonConnectUI();
 
     const [items, setItems] = useState<any[]>([]);
@@ -39,10 +40,10 @@ const Boost = () => {
     useEffect(() => {
         if (!wallet) return;
         if (IS_MAINNET && tonConnectUI?.wallet?.account.chain !== CHAIN.MAINNET) {
-            toast.error("Connect your mainnet wallet!");
+            console.error("Connect your mainnet wallet!");
         }
         if (!IS_MAINNET && tonConnectUI?.wallet?.account.chain === CHAIN.MAINNET) {
-            toast.error("Connect your testnet wallet!");
+            console.error("Connect your testnet wallet!");
         }
     }, [wallet]);
 
@@ -89,7 +90,7 @@ const Boost = () => {
 
     return (
         <div className="h-[calc(100vh-90px)] overflow-y-auto">
-            <button onClick={handleConnectWallet} className="absolute top-3 right-3 z-10 px-2 h-[30px] flex items-center justify-center gap-1 rounded-lg bg-slate-800 text-sm shadow-md hover:scale-110 transition-all duration-200">{ wallet ? wallet.account.address?.slice(0, 5) + '...' + wallet.account.address?.slice(-5) : 'Connect Wallet' }</button>
+            <button onClick={handleConnectWallet} className="absolute top-3 right-3 z-10 px-2 h-[30px] flex items-center justify-center gap-1 rounded-lg bg-slate-800 text-sm shadow-md hover:scale-110 transition-all duration-200">{ address ? address.slice(0, 5) + '...' + address.slice(-5) : 'Connect Wallet' }</button>
             <div className="relative flex items-end justify-center">
                 <Image src="/imgs/pages/boost.jpg" className="w-screen" height={128} />
                 <div className="absolute bottom-0 text-[42px] font-bold text-yellow-500 translate-y-1/2" style={{ WebkitTextStroke: '1px white' }}>Boost legends</div>
