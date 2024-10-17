@@ -55,7 +55,7 @@ UserSchema.methods.updateEnergy = async function () {
   if (secondsElapsed > 0) {
     var addValue = await this.calcEnergyInc();
     const energyGain = addValue * secondsElapsed;
-    this.energy = Math.min(this.energy + energyGain, this.maxEnergy);
+    this.energy = Math.min(Math.floor(this.energy + energyGain), this.maxEnergy);
     this.lastEnergyUpdate = now;
     return this.save(); // Save the changes to the database
   }
