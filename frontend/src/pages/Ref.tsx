@@ -4,6 +4,7 @@ import { useInitData, useUtils } from "@telegram-apps/sdk-react";
 import { LINK } from "@/libs/constants";
 import API from "@/libs/API";
 import Avatar from "@/components/ui/Avatar";
+import { toast } from "react-toastify";
 
 const Ref = () => {
     const user = useInitData()!.user!;
@@ -13,9 +14,16 @@ const Ref = () => {
 
     const handleClickInviteLink = () => {
         const link = LINK.TELEGRAM_MINIAPP + '?start=' + user.id;
-        const shareText = 'Join our telegram mini app.';
+        const shareText = 'Join our Boredem Legend Club.';
         const fullUrl = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(shareText)}`;
         utils.openTelegramLink(fullUrl);
+    }
+
+    const handleClickCopyButton = () => {
+        const link = LINK.TELEGRAM_MINIAPP + '?start=' + user.id;
+        const shareText = 'Join our Boredem Legend Club.';
+        const fullUrl = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(shareText)}`;
+        navigator.clipboard.writeText(fullUrl).then(() => toast.success('Invite link copied.'));
     }
 
     useEffect(() => {
@@ -44,8 +52,8 @@ const Ref = () => {
                 </div>
             </div>
             <div className="flex justify-between gap-3 px-10 mt-5">
-                <button onClick={handleClickInviteLink} className="flex-1 h-10 font-bold border rounded-lg border-white/20 bg-white/20">Invite</button>
-                <button className="flex items-center justify-center w-10 h-10 border rounded-lg border-white/20 bg-white/20">
+                <button onClick={handleClickInviteLink} className="flex-1 h-10 font-bold transition-all duration-200 border rounded-lg hover:-translate-y-1 active:translate-y-0 border-white/20 bg-white/20">Invite</button>
+                <button onClick={handleClickCopyButton} className="flex items-center justify-center w-10 h-10 transition-all duration-200 border rounded-lg hover:-translate-y-1 active:translate-y-0 border-white/20 bg-white/20">
                     <Image src="/imgs/icons/copy-icon.svg" width={20} height={20} />
                 </button>
             </div>
