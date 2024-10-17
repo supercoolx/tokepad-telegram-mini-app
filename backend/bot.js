@@ -59,8 +59,8 @@ const botStart = async () => {
         const keyboard = new InlineKeyboard()
             .webApp('😺 Play Now 😺', play_url)
             .row()
-            .url('🚀 ✖ 🚀', 'https://x.com/test')
-            .url('👬 Join 👬', 'https://t.me/test')
+            .url('🦧 Instagram 🦧', 'https://www.instagram.com/boredemlegend/?igsh=MXMyZXVpYjNlY3E5cA%3D%3D')
+            .url('👬 Join 👬', 'https://t.me/BoredemLegendCommunity')
             .row()
             .url('🙈 Invite 🙉', invite_fullUrl)
 
