@@ -62,6 +62,7 @@ const botStart = async () => {
             .url('🦧 Instagram 🦧', 'https://www.instagram.com/boredemlegend/?igsh=MXMyZXVpYjNlY3E5cA%3D%3D')
             .url('👬 Join 👬', 'https://t.me/BoredemLegendCommunity')
             .row()
+            .url('🐒 X 🐒', 'https://x.com/boredemlegend?t=TP5OgxZnXYLpz364XawAbw&s=09')
             .url('🙈 Invite 🙉', invite_fullUrl)
 
         await ctx.replyWithPhoto(

@@ -20,6 +20,7 @@ const Task = () => {
     const [isJoinedTelegramGroup, setJoinedTelegramGroup] = useState(false);
     const [isFollowingInstagram, setFollowingInstagram] = useState(false);
     const [isFollowingYoutube, setFollowingYoutube] = useState(false);
+    const [isFollowingX, setFollowingX] = useState(false);
     const [isVisitedWebsite, setVisitedWebsite] = useState(false);
     const [isVisitedOpensea, setVisitedOpensea] = useState(false);
     const [dailyRemainSecond, setDailyRemainSecond] = useState(0);
@@ -27,6 +28,7 @@ const Task = () => {
     const [openVisitWebsiteModal, setOpenVisitWebsiteModal] = useState(false);
     const [openVisitOpenseaModal, setOpenVisitOpenseaModal] = useState(false);
     const [openJoinTGChannelModal, setOpenJoinTGChannelModal] = useState(false);
+    const [openJoinXModal, setOpenJoinXModal] = useState(false);
     const [openJoinTGGroupModal, setOpenJoinTGGroupModal] = useState(false);
     const [openFollowInstagramModal, setOpenFollowInstagramModal] = useState(false);
     const [openFollowYoutubeModal, setOpenFollowYoutubeModal] = useState(false);
@@ -38,6 +40,7 @@ const Task = () => {
             setJoinedTelegramGroup(res.data.telegramGroupJoined);
             setFollowingInstagram(res.data.instagramFollowed);
             setFollowingYoutube(res.data.youtubeSubscribed);
+            setFollowingX(res.data.xFollowed);
             setVisitedWebsite(res.data.visitWebSite);
             setVisitedOpensea(res.data.visitOpensea);
         }).catch(console.error);
@@ -99,6 +102,11 @@ const Task = () => {
         utils.openLink(LINK.YOUTUBE);
     }
 
+    const handleXLink = () => {
+        API.post('/task/follow', { userid: user.id, platform: PLATFORM.X }).catch(console.error);
+        utils.openLink(LINK.X);
+    }
+
     const handleJoinTelegramChannel = () => {
         API.post('/task/jointg', {
             userid: user.id,
@@ -143,6 +151,17 @@ const Task = () => {
             if (res.data.success) {
                 setFollowingYoutube(true);
                 setOpenFollowYoutubeModal(false);
+                toast(res.data.msg);
+            }
+            else toast.error(res.data.msg);
+        }).catch(console.error);
+    }
+
+    const handleFollowX = () => {
+        API.post('/task/followX', { userid: user.id, username: user.username }).then(res => {
+            if (res.data.success) {
+                setFollowingX(true);
+                setOpenJoinXModal(false);
                 toast(res.data.msg);
             }
             else toast.error(res.data.msg);
@@ -222,6 +241,21 @@ const Task = () => {
                             </div>
                         </div>
                         <button disabled={isJoinedTelegramGroup} onClick={() => setOpenJoinTGGroupModal(true)} className="w-[100px] h-[30px] rounded-lg bg-yellow-500 text-sm shadow-md hover:scale-110 transition-all duration-200 disabled:bg-slate-800 disabled:shadow-none hover:disabled:scale-100 disabled:hover:cursor-not-allowed">Join</button>
+                    </div>
+                </div>
+                <div className="flex items-center gap-2 px-3 py-2 mx-3 border rounded-lg bg-slate-600 border-white/50 justi">
+                    <div className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-200">
+                        <Image src="/imgs/icons/x.png" width={20} height={20} />
+                    </div>
+                    <div className="flex items-center justify-between flex-1">
+                        <div className="">
+                            <div className="">Follow our X</div>
+                            <div className="flex items-center gap-2 mt-1">
+                                <Image src="/imgs/icons/coin.png" width={12} height={12} />
+                                <span className="text-[10px]">+1000</span>
+                            </div>
+                        </div>
+                        <button disabled={isFollowingX} onClick={() => setOpenJoinXModal(true)} className="w-[100px] h-[30px] rounded-lg bg-yellow-500 text-sm shadow-md hover:scale-110 transition-all duration-200 disabled:bg-slate-800 disabled:shadow-none hover:disabled:scale-100 disabled:hover:cursor-not-allowed">Follow</button>
                     </div>
                 </div>
                 <div className="flex items-center gap-2 px-3 py-2 mx-3 border rounded-lg bg-slate-600 border-white/50 justi">
@@ -330,6 +364,21 @@ const Task = () => {
                         <Fragment>
                             <Button onClick={handleTGGroupLink} size="m" stretched>Join</Button>
                             <Button onClick={handleJoinTelegramGroup} size="m" stretched>Complete</Button>
+                        </Fragment>
+                    }
+                />
+            </Modal>
+            <Modal
+                header={<Modal.Header />}
+                open={openFollowInstagramModal}
+                onOpenChange={setOpenFollowInstagramModal}
+            >
+                <Placeholder
+                    header={<span className="text-yellow-400">Follow our X</span>}
+                    action={
+                        <Fragment>
+                            <Button onClick={handleXLink} size="m" stretched>Follow</Button>
+                            <Button onClick={handleFollowX} size="m" stretched>Complete</Button>
                         </Fragment>
                     }
                 />
