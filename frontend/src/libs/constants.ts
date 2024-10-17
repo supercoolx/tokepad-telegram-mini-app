@@ -17,7 +17,7 @@ export const ROLE = {
 }
 
 export const OWNER_ADDRESS = "UQBQEH26BFekzAAJ_65kXS1ZNlPu_PEahzFIaI65XMWjvM67";
-export const IS_MAINNET = true;
+export const IS_MAINNET = false;
 
 export const PLATFORM = {
     X: 'X',
