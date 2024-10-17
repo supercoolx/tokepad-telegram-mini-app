@@ -33,7 +33,7 @@ const UserSchema = new mongoose.Schema({
   energy: { type: Number, default: 500 },
   maxEnergy: { type: Number, default: 500 },
   loseEnergyPerTap: { type: Number, default: 10 },
-  addEnergyPerSecond: { type: Number, default: 1 },
+  addEnergyPerSecond: { type: Number, default: 0.5 },
   lastEnergyUpdate: { type: Date, default: Date.now },
   earnPerTap: { type: Number, default: 1 },
 
