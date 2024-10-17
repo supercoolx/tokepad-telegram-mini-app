@@ -370,8 +370,8 @@ const Task = () => {
             </Modal>
             <Modal
                 header={<Modal.Header />}
-                open={openFollowInstagramModal}
-                onOpenChange={setOpenFollowInstagramModal}
+                open={openJoinXModal}
+                onOpenChange={setOpenJoinXModal}
             >
                 <Placeholder
                     header={<span className="text-yellow-400">Follow our X</span>}
