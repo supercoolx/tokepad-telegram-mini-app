@@ -38,7 +38,7 @@ const Home = () => {
     }, [user]);
 
     useEffect(() => {
-        const id = setInterval(setEnergy, 1000, prev => Math.min(prev + addEnergyPerSecond, maxEnergy));
+        const id = setInterval(setEnergy, 1000 / addEnergyPerSecond, prev => Math.min(prev + 1, maxEnergy));
         return () => clearInterval(id);
     }, [maxEnergy, addEnergyPerSecond]);
 
@@ -86,7 +86,7 @@ const Home = () => {
                 </div> */}
             </div>
             <div className="relative flex items-center justify-center flex-1">
-                <img onLoad={() => setShowLight(true)} onClick={handleTap} className={`transition-all duration-200 ${energy > loseEnergyPerTap ? 'cursor-pointer' : 'cursor-not-allowed' } hover:scale-110 active:scale-100`} src="/imgs/pages/coin.png" width={200} height={200} />
+                <img onLoad={() => setShowLight(true)} onClick={handleTap} className={`transition-all duration-200 rounded-full ${energy > loseEnergyPerTap ? 'cursor-pointer' : 'cursor-not-allowed' } hover:scale-110 active:scale-100`} src="/imgs/pages/tap.png" width={200} height={200} />
                 <div className={`-z-10 h-[200px] w-[500px] absolute -translate-x-1/2 rotate-45 origin-right bg-gradient-to-b from-transparent via-yellow-300/50 to-transparent rounded-full transition-all duration-[5000] ${ showLight ? 'opacity-100' : 'opacity-0' }`} />
             </div>
             <div className="">
