@@ -193,7 +193,7 @@ const Task = () => {
     return (
         <div className="h-[calc(100vh-90px)] overflow-y-auto">
             <div className="relative flex items-end justify-center">
-                <Image src="/imgs/pages/task.jpg" />
+                <Image src="/imgs/pages/task.jpg" className="w-screen" height={128} />
                 <div className="absolute bottom-0 text-[42px] font-bold text-yellow-500 translate-y-1/2" style={{ WebkitTextStroke: '1px white' }}>Earn more coins</div>
             </div>
             <div className="px-8 mt-10 text-xs text-center">Complete task and get coins instantly! Stay updated and stack up your rewards</div>

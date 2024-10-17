@@ -32,7 +32,7 @@ const Ref = () => {
     return (
         <div className="h-[calc(100vh-90px)] overflow-y-auto">
             <div className="relative flex items-end justify-center">
-                <Image src="/imgs/pages/ref.jpg" />
+                <Image src="/imgs/pages/ref.jpg" className="w-screen" height={128} />
                 <div className="absolute bottom-0 text-5xl font-bold text-yellow-500 translate-y-1/2" style={{ WebkitTextStroke: '1px white'}}>Invite Friends</div>
             </div>
             <div className="px-8 mt-10 text-xs text-center">Share the fun! Invite your friends to join and enjoy exclusive rewards together. Click the link and let the adventures begin!</div>

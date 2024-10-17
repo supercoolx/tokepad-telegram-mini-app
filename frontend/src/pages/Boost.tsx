@@ -91,7 +91,7 @@ const Boost = () => {
         <div className="h-[calc(100vh-90px)] overflow-y-auto">
             <button onClick={handleConnectWallet} className="absolute top-3 right-3 z-10 px-2 h-[30px] flex items-center justify-center gap-1 rounded-lg bg-slate-800 text-sm shadow-md hover:scale-110 transition-all duration-200">{ wallet ? wallet.account.address?.slice(0, 5) + '...' + wallet.account.address?.slice(-5) : 'Connect Wallet' }</button>
             <div className="relative flex items-end justify-center">
-                <Image src="/imgs/pages/boost.jpg" />
+                <Image src="/imgs/pages/boost.jpg" className="w-screen" height={128} />
                 <div className="absolute bottom-0 text-[42px] font-bold text-yellow-500 translate-y-1/2" style={{ WebkitTextStroke: '1px white' }}>Boost legends</div>
             </div>
             <div className="px-8 mt-10 text-xs text-center">Boost your tap and enjoy more rewards instantly!</div>
