@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { MouseEventHandler, useEffect, useState } from "react";
 import API from "@/libs/API";
 import { useInitData } from "@telegram-apps/sdk-react";
 
@@ -14,6 +14,8 @@ const Home = () => {
     const [addEnergyPerSecond, setAddEnergyPerSecond] = useState(1);
     const [earnPerSecond, setEarnPerSecond] = useState(0);
     const [maxEnergy, setMaxEnergy] = useState(500);
+
+    const [showLight, setShowLight] = useState(false);
 
     const [effects, setEffects] = useState<TapEffectProps[]>([]);
     
@@ -45,7 +47,7 @@ const Home = () => {
         return () => clearInterval(id);
     }, [earnPerSecond]);
 
-    const handleTap = (e: MouseEvent) => {
+    const handleTap: MouseEventHandler<HTMLImageElement> = (e) => {
         e.preventDefault();
         if (energy < loseEnergyPerTap) return;
 
@@ -77,15 +79,15 @@ const Home = () => {
                     <Image src="/imgs/icons/coin.png" width={30} height={30} />
                     <span className="text-3xl font-bold">{ point.toLocaleString() }</span>
                 </div>
-                <div className="flex items-center justify-center gap-1 mt-3 cursor-pointer">
+                {/* <div className="flex items-center justify-center gap-1 mt-3 cursor-pointer">
                     <Image src="/imgs/icons/cup.png" width={16} height={16} />
                     <span className="text-sm font-bold text-white/50">Bronze</span>
                     <Image src="/imgs/icons/arrow.png" width={10} height={10} />
-                </div>
+                </div> */}
             </div>
             <div className="relative flex items-center justify-center flex-1">
-                <Image onClick={handleTap} className={`transition-all duration-200 ${energy > loseEnergyPerTap ? 'cursor-pointer' : 'cursor-not-allowed' } hover:scale-110 active:scale-100`} src="/imgs/pages/coin.png" width={200} height={200} />
-                <div className="-z-10 h-[200px] w-[500px] absolute -translate-x-1/2 rotate-45 origin-right bg-gradient-to-b from-transparent via-yellow-300/50 to-transparent"></div>
+                <img onLoad={() => setShowLight(true)} onClick={handleTap} className={`transition-all duration-200 ${energy > loseEnergyPerTap ? 'cursor-pointer' : 'cursor-not-allowed' } hover:scale-110 active:scale-100`} src="/imgs/pages/coin.png" width={200} height={200} />
+                <div className={`-z-10 h-[200px] w-[500px] absolute -translate-x-1/2 rotate-45 origin-right bg-gradient-to-b from-transparent via-yellow-300/50 to-transparent rounded-full transition-all duration-[5000] ${ showLight ? 'opacity-100' : 'opacity-0' }`} />
             </div>
             <div className="">
                 <div className="flex justify-center gap-1">
